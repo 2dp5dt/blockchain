@@ -1,6 +1,7 @@
 //SPDX-License-identifier: MIT
 pragma solidity ^0.8.0;
 
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract Exchange is ERC20{
@@ -17,16 +18,19 @@ contract Exchange is ERC20{
 
 
     function addLiquidity(uint256 token1Amount, uint256 token2Amount) public {
+        uint256 totalLiquidity = totalSupply();
+        uint256 token1Reserve = token1.balanceOf(address(this));
 
-        //토큰 비율 인풋 비율 검사
         token1.transferFrom(msg.sender,address(this), token1Amount);
-        token2.transferFrom(msg.sender,address(this), token2Amount);   
+        token2.transferFrom(msg.sender,address(this), token2Amount);
+        uint256 liquidityMinted = totalLiquidity * (token1Amount / token1Reserve); 
+        _mint(msg.sender, liquidityMinted);  
     }
 
     function removeLiquidity(token1Amount, token2Amount) public {
         token1.transferFrom(address(this), msg.sender, token1Amount);
         token2.transferFrom(address(this), msg.sender, token2Amount);    
-        _mint(msg.sender, 1);    
+  
     }
 
     function tokenSwap(address tokenName, uint256 tokenAmount) public {
