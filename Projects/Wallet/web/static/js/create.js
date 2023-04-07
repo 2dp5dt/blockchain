@@ -1,6 +1,6 @@
 //let web3 = new Web3(new Web3.providers.HttpProvider("https://mainnet.infura.io/v3/b0821e33cc8342e189df1b62485d6d06"));
-let web3 = new Web3();
-let sha25
+const web3 = new Web3();
+
 
 function callFunction(name){
     switch(name){
@@ -51,22 +51,53 @@ function connectWtihWords(){
 }
 
 function createWalletWithPW(){
-    let password = document.getElementById("createWallet").value;
-    console.log(password);
+    // let signPw = document.getElementById("createWallet").value;
+    // let createAddress = web3.eth.accounts.create();
+    // let keystore = createAddress.encrypt(signPw);
+    // let solveKeystore = web3.eth.accounts.decrypt(keystore, signPw);
 
-    let createAddress = web3.eth.accounts.create();
-    console.log("Address :\n"+createAddress.address+"\nPrivateKey :\n"+createAddress.privateKey);
+    const alertPlaceholder = document.getElementById('liveAlertSeedPlaceholder')
+    const appendAlert = (message, type) => {
+    const wrapper = document.createElement('div')
+    wrapper.innerHTML = [
+    `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+    `   <div>${message}</div>`,
+    '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+    '</div>'
+    ].join('')
 
-    let keystore = createAddress.encrypt(password);
-    console.log("keystore :\n", keystore);
-
-    let privatekey = web3.eth.accounts.decrypt(keystore, password);
-    console.log("Account :\n", privatekey);
+    alertPlaceholder.append(wrapper)
+    }
+    bip39.setDefaultWordlist('korean')
+    let strRandWords = bip39.generateMnemonic();
+    appendAlert(strRandWords, 'success')
+    const seed = bip39.mnemonicToSeedSync(strRandWords).toString('hex')
+    createBTCAddr(seed);
 }
 
 function createSeed(){
     let rand128 = web3.utils.randomHex(32);
     console.log(rand128);
+}
+
+function createBTCAddr(seed){
+    const seedEncrypt = CryptoJS.HmacSHA512(seed, '').toString();
+    console.log(seed);
+    const halfLen256 = 128
+    const privKey = seedEncrypt.substr(0,halfLen256)
+    const CC = seedEncrypt.substr(halfLen256,halfLen256)
+    console.log("priv : "+privKey);
+    console.log("CC : "+CC);
+
+    const bitcoin = window.bitcoinjs
+
+    const keyPair = bitcoin.ECPair.fromWIF(privKey);
+    const pubKey = keyPair.publicKey;
+    const address = bitcoin.payments.p2pkh({pubkey: pubKey});
+    console.log(address);
+}
+function createETHAddr(seed){
+    const seedEncrypt = web3.utils.keccak256(seed)
 }
 
 let rand128 = web3.utils.randomHex(16);
