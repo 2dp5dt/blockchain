@@ -89,11 +89,10 @@ function createBTCAddr(seed){
     console.log("priv : "+privKey);
     console.log("CC : "+CC);
 
-    const bitcoin = window.bitcoinjs
-
-    const keyPair = bitcoin.ECPair.fromWIF(privKey);
+    console.log(bitcoinjs);
+    const keyPair = bitcoinjs.ECPair.fromWIF(privKey);
     const pubKey = keyPair.publicKey;
-    const address = bitcoin.payments.p2pkh({pubkey: pubKey});
+    const address = bitcoinjs.payments.p2pkh({pubkey: pubKey});
     console.log(address);
 }
 function createETHAddr(seed){
