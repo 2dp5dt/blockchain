@@ -1,0 +1,22 @@
+{
+  "name": "js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "clientJS.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bip39": "^3.1.0",
+    "bitcoinjs-lib": "^6.1.0",
+    "crypto-js": "^4.1.1",
+    "ecpair": "^2.1.0",
+    "elliptic": "^6.5.4",
+    "hdkey": "^2.1.0",
+    "tiny-secp256k1": "^2.2.1",
+    "web3": "^1.9.0",
+    "wif": "^2.0.6"
+  }
+}
