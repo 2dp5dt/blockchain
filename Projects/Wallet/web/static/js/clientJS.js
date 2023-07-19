@@ -1,5 +1,13 @@
-//let web3 = new Web3(new Web3.providers.HttpProvider("https://mainnet.infura.io/v3/b0821e33cc8342e189df1b62485d6d06"));
+const Web3 = require('web3');
+const bip39 = require('bip39');
+const bitcoin = require('bitcoinjs-lib');
+const HDKey = require('hdkey');
+const wif = require('wif');
+const EC = require('elliptic').ec;
 const web3 = new Web3();
+const ec = new EC('secp256k1');
+//const web3 = new Web3(new Web3.providers.HttpProvider("https://mainnet.infura.io/v3/b0821e33cc8342e189df1b62485d6d06"));
+
 
 
 function callFunction(name){
@@ -71,47 +79,41 @@ function createWalletWithPW(){
     bip39.setDefaultWordlist('korean')
     let strRandWords = bip39.generateMnemonic();
     appendAlert(strRandWords, 'success')
-    const seed = bip39.mnemonicToSeedSync(strRandWords).toString('hex')
-    createBTCAddr(seed);
+    const seed = bip39.mnemonicToSeedSync(strRandWords);
+    console.log(seed.toString('hex'));
+    const wallet = createSeed(seed);
+    wallet.newAddr('BTC');
+    wallet.newAddr('ETH');
 }
 
-function createSeed(){
-    let rand128 = web3.utils.randomHex(32);
-    console.log(rand128);
+function createSeed(seed){
+    const hdkey = HDKey.fromMasterSeed(seed);
+    console.log('xprv : '+hdkey.privateExtendedKey);
+    console.log('xpub : '+hdkey.publicExtendedKey);
+    return hdkey;
 }
 
-function createBTCAddr(seed){
-    const seedEncrypt = CryptoJS.HmacSHA512(seed, '').toString();
-    console.log(seed);
-    const halfLen256 = 128
-    const privKey = seedEncrypt.substring(0,halfLen256)
-    const CC = seedEncrypt.substring(halfLen256,halfLen256)
-    console.log("priv : "+privKey);
-    console.log("CC : "+CC);
-
-<<<<<<< HEAD
-    const bitcoin = window.Bitcoinjs;
-
-    const keyPair = bitcoin.ECPair.fromWIF(privKey);
-=======
-    console.log(bitcoinjs);
-    const keyPair = bitcoinjs.ECPair.fromWIF(privKey);
->>>>>>> 145eef41b8db3b2944ca4b71c973ca0b594c89d4
-    const pubKey = keyPair.publicKey;
-    const address = bitcoinjs.payments.p2pkh({pubkey: pubKey});
-    console.log(address);
-}
-function createETHAddr(seed){
-    const seedEncrypt = web3.utils.keccak256(seed)
+HDKey.prototype.newAddr = function (coin){
+    switch(coin){
+        case 'BTC':
+            const btcChild = this.derive("m/44'/0'/0'/0/0");
+            console.log('btc 1: '+btcChild.privateKey.toString('hex'));
+            const btcAddr = bitcoin.payments.p2pkh({pubkey:btcChild.publicKey})
+            console.log('btc: '+btcAddr.address);
+            break;
+        case 'ETH':
+            const ethChild = this.derive("m/44'/60'/0'/0/0");
+            console.log('eth 1: '+ethChild.privateKey.toString('hex'));
+            
+            const pubHash = web3.utils.keccak256(ethChild.publicKey);
+            
+            console.log(ethChild.publicKey.toString('hex'));
+            const ethAddr = '0x'+pubHash.substring(pubHash.length-40,);
+            console.log('eth: '+ethAddr);
+            break
+    }
 }
 
-let rand128 = web3.utils.randomHex(16);
-console.log(rand128);
 
-//let rand128 = web3.eth.accounts.create();
-let rand256 = web3.utils.randomHex(32);
-console.log(rand256)
-
-let randsha256 = CryptoJS.SHA256(rand128).toString();
-console.log(randsha256);
-
+callFunction();
+global.callFunction = callFunction;
