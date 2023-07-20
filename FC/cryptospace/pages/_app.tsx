@@ -2,19 +2,20 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import {Space} from '../component';
 import styled from '@emotion/styled'
+import { SpaceContextProvider } from '../contexts';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <>
-      <AppView>
-        <SpaceWrapper>
-          <Space />
-        </SpaceWrapper>
-        <ComponentWrapper>
-          <Component {...pageProps} />
-        </ComponentWrapper>
-      </AppView>
-    </>
+      <SpaceContextProvider>
+        <AppView>
+          <SpaceWrapper>
+            <Space />
+          </SpaceWrapper>
+          <ComponentWrapper>
+            <Component {...pageProps} />
+          </ComponentWrapper>
+        </AppView>
+      </SpaceContextProvider>
   );
 }
 const AppView = styled.div`

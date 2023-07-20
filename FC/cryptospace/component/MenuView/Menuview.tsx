@@ -13,4 +13,5 @@ const View = styled.div`
  border-radius: 12px;
  background: #88888820;
  width: 500px;
+ align-items: center;
 `;

@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import styled from '@emotion/styled';
 import {MenuView, Title} from '../component';
 import { Button } from '@mui/material';
+import Link from 'next/link';
 
 
 const Home: NextPage = () => {
@@ -10,8 +11,13 @@ const Home: NextPage = () => {
         <MenuView>
           <Title>CRYPTOSPACE</Title>
 
-          <MenuButton variant="outlined" size="large">Minting Your Own Planet</MenuButton>
-          <MenuButton variant="outlined" size="large">View All Planets</MenuButton>
+          <Link href="/mint">
+            <MenuButton variant="outlined" size="large">Minting Your Own Planet</MenuButton>
+          </Link>
+
+          <Link href="/list">
+            <MenuButton variant="outlined" size="large">View All Planets</MenuButton>
+          </Link>
         </MenuView>
       </MainView>
   );
