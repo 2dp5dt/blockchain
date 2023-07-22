@@ -1,20 +1,42 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {NextPage} from 'next';
 import styled from '@emotion/styled';
-import { MenuView, Title } from '../component';
+import { MenuView, Title } from '../../component';
 import Link from 'next/link';
 import { Button } from '@mui/material';
-import { PlanetList } from '../component/Planet';
-import { SpaceContext } from '../contexts';
-import { useRouter } from 'next/router';
+import { PlanetList } from '../../component/Planet';
+import { SpaceContext, Web3Context} from '../../contexts';
+import  {useRouter}  from 'next/router';
+import {usePlanetContract} from '../../hooks'
+
 
 
 const Mint: NextPage = ()=>{
     const router = useRouter();
     const {showPlanet, clearPlanet} = useContext(SpaceContext);
     const [planetIndex, setPlanetIndex] = useState(-1);
+    const {web3} = useContext(Web3Context);
+    const {mintPlanet} = usePlanetContract(web3);
+
+
     const showRandomPlanet = ()=>{
         setPlanetIndex(Math.floor(Math.random() * PlanetList.length));
+    };
+
+    const mint = async ()=>{
+      if(!web3){
+        return;
+      }
+      
+      const accounts = await web3.eth.requestAccounts();
+      const currentAccount = accounts[0];
+
+      mintPlanet({
+        from: currentAccount,
+        value: web3.utils.toWei(10, 'milliether'),
+      }).on('transactionHash', (txHash: string) =>{
+        router.push(`/mint/${txHash}`);
+      });
     };
 
     useEffect(()=>{
@@ -44,7 +66,7 @@ const Mint: NextPage = ()=>{
                 </Description>
 
                 <ButtonView>
-                    <MenuButton variant="contained" size="large">
+                    <MenuButton variant="contained" size="large" onClick={()=>mint()}>
                         MINT PLANET</MenuButton>
                     <MenuButton variant="outlined" size="large" 
                         onClick={()=>router.back()}> GO PREVIOUS</MenuButton>
