@@ -1,34 +1,29 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## PLANET NFT
 
-## Getting Started
+- 준비
+  - 웹 브라우저 메타마스크 설치
+  - 각 경로(Cryptospace, Cryptosapce-contract)의 package.json 라이브러리 설치 (npm install)  <br><br>
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+- 실행  
+    /Crytospace-contract :
+    - `npx hardhat node` (노드 실행)
+    - `npx hardhat run scripts/deploy.ts --network localhost` (컨트랙트 배포)  <br><br>
+      
+    /Cryptospace :
+    - `npm run dev` (next 개발모드)  <br><br><br>
+ 
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+    http://localhost:3000/ 접속  <br><br>
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+- 설명
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+  동영상
+(https://drive.google.com/file/d/1i6y5g2_a1QBpRi9b19uwAleti8l5ZI8w/view?usp=drive_link)  <br>
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+  - 행성은 총 9개가 있으며 행성 메타데이터는 외부링크에서 가져옵니다.
+  - 로컬호스트 네트워크를 사용하여 컨트랙트를 배포합니다.
+  - 컨트랙트는 ERC721을 상속받아 사용하며 mintPlanet 함수를 추가하여 행성을 민팅하는 기능을 만들었습니다.
+  - 민팅 페이지에서 0.01ETH(GO)를 지불하여 행성을 민팅 할 수 있습니다.
+  - 민팅된 행성은 리스트 페이지에서 확인 할 수 있습니다.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
