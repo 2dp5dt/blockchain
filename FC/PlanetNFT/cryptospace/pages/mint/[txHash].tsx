@@ -4,8 +4,8 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { SpaceContext, Web3Context } from '../../contexts';
 import { usePlanetContract } from '../../hooks';
 import { PlanetName } from '../../component/Planet';
-import { CircularProgress } from '@mui/material';
-import { Title } from '../../component';
+import { Button, CircularProgress } from '@mui/material';
+import { MenuView, Metadata, Title } from '../../component';
 
 type TxStatus = 'PENDING' | 'MINING' | 'MINED' | 'WRONG_TX';
 
@@ -44,7 +44,6 @@ const MintTx = () =>{
 
                     const owner = mintingEvent.topics[2];
                     setOwner(owner.slice(-40));
-                    console.log(tokenId);
                     setTokenId(web3.utils.hexToNumber(tokenId));
 
                     const planetType = metadata.planetType as PlanetName;
@@ -63,7 +62,7 @@ const MintTx = () =>{
             checkTx();
             return;
         }
-        if (status === "MINING"){
+        if (status === "MINING" ){
             const interval = setInterval(()=>checkTx(), 5000);
             return ()=> clearInterval(interval);
         }
@@ -79,11 +78,18 @@ const MintTx = () =>{
               <Title>Wrong Transaction</Title>
               <Description>It("'")s not a mining Transaction.</Description></>)}
             {status === "MINED" && (<>
-              <Title>Planet #{tokenId}</Title></>)}
-        </DownMenuView></TxView>
+              <Title>Planet #{tokenId}</Title>
+              <Metadata owner={owner} properties={metadata.attributes} /> </>)}
+            {status != "PENDING" && status !="MINING" && (
+                <GoPrevButton
+                    variant='contained' size='large' onClick={()=>router.back()}>
+                    Go Previous
+                </GoPrevButton>)}
+        </DownMenuView>
+        </TxView>
 }
 
-const DownMenuView = styled.div`
+const DownMenuView = styled(MenuView)`
  margin-top: 320px;
  align-items: center;
 `;
@@ -97,18 +103,22 @@ const TxView = styled.div`
  color: #ffffff;
 `;
 
+
 const Progress = styled(CircularProgress)`
  margin-top: 24px;
  margin-bottom: 24px;
 `;
-
-
 
 const Description = styled.div`
  width: 100%;
  margin-top: 8px;
  color: #ccc;
  text-align: center;
+`;
+
+const GoPrevButton = styled(Button)`
+ margin-top: 24px;
+ width: 100%;
 `;
 
 export default MintTx;
