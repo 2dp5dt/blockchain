@@ -1,5 +1,5 @@
 {
-<<<<<<< HEAD
+
   "name": "js",
   "version": "1.0.0",
   "description": "",
@@ -17,17 +17,9 @@
     "elliptic": "^6.5.4",
     "hdkey": "^2.1.0",
     "tiny-secp256k1": "^2.2.1",
-    "web3": "^1.9.0",
-    "wif": "^2.0.6"
-=======
-  "dependencies": {
-    "bip39": "^3.1.0",
-    "bitcoinjs-lib": "^6.1.0",
     "bs58check": "^3.0.1",
-    "ecpair": "^2.1.0",
+    "web3": "^1.9.0",
     "pbkdf2": "^3.1.2",
-    "tiny-secp256k1": "^2.2.1",
-    "web3": "^1.9.0"
->>>>>>> 145eef41b8db3b2944ca4b71c973ca0b594c89d4
+    "wif": "^2.0.6"
   }
 }

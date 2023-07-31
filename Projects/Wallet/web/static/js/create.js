@@ -1,4 +1,5 @@
 //let web3 = new Web3(new Web3.providers.HttpProvider("https://mainnet.infura.io/v3/b0821e33cc8342e189df1b62485d6d06"));
+const Web3 = require('web3');
 const web3 = new Web3();
 
 
@@ -89,14 +90,9 @@ function createBTCAddr(seed){
     console.log("priv : "+privKey);
     console.log("CC : "+CC);
 
-<<<<<<< HEAD
-    const bitcoin = window.Bitcoinjs;
 
-    const keyPair = bitcoin.ECPair.fromWIF(privKey);
-=======
     console.log(bitcoinjs);
     const keyPair = bitcoinjs.ECPair.fromWIF(privKey);
->>>>>>> 145eef41b8db3b2944ca4b71c973ca0b594c89d4
     const pubKey = keyPair.publicKey;
     const address = bitcoinjs.payments.p2pkh({pubkey: pubKey});
     console.log(address);

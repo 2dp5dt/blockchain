@@ -1,4 +1,4 @@
-const bitcoinjs = require('bitcoinjs-lib');
+//const bitcoinjs = require('bitcoinjs-lib');
 
 // const tinysecp = require('tiny-secp256k1');
 // const wif =  require('wif');

@@ -111,6 +111,10 @@ HDKey.prototype.newAddr = function (coin){
             const ethAddr = '0x'+pubHash.substring(pubHash.length-40,);
             console.log('eth: '+ethAddr);
             break
+        default:
+            console.log('aaaa');
+            break
+        
     }
 }
 
